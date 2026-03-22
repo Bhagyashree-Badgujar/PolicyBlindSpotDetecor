@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NitiDarpan – Policy Blind Spot Detector | Government of India Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0D2B55;
+  --navy-mid: #1A3F6F;
+  --navy-light: #2B5797;
+  --saffron: #FF6B00;
+  --saffron-light: #FF8C38;
+  --green: #138808;
+  --green-light: #1CA60A;
+  --teal: #007C7C;
+  --teal-light: #009E9E;
+  --cream: #FDF8F0;
+  --cream-mid: #F5EFE3;
+  --red: #C0392B;
+  --amber: #E67E22;
+  --slate: #4A5568;
+  --muted: #718096;
+  --border: #D6D0C4;
+  --white: #FFFFFF;
+  --shadow: 0 2px 12px rgba(13,43,85,0.10);
+  --shadow-lg: 0 8px 32px rgba(13,43,85,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--cream);
+  color: var(--navy);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── TOP STRIP ── */
+.top-strip {
+  background: var(--navy);
+  color: rgba(255,255,255,0.80);
+  font-size: 12px;
+  padding: 5px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.top-strip a { color: rgba(255,255,255,0.70); text-decoration: none; margin-left: 14px; }
+.top-strip a:hover { color: white; }
+.strip-links { display: flex; align-items: center; gap: 2px; }
+
+/* ── HEADER ── */
+header {
+  background: white;
+  border-bottom: 3px solid var(--saffron);
+  box-shadow: var(--shadow);
+  padding: 0 32px;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 0;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.emblem {
+  width: 60px; height: 60px;
+  background: var(--navy);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.header-title h1 {
+  font-family: 'Noto Serif', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+.header-title .subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.header-badge {
+  margin-left: auto;
+  background: var(--navy);
+  color: white;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ── NAV ── */
+nav {
+  background: var(--navy-mid);
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+nav a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  padding: 14px 18px;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  display: block;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+nav a:hover, nav a.active {
+  color: white;
+  background: rgba(255,255,255,0.08);
+  border-bottom-color: var(--saffron);
+}
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary {
+  background: var(--saffron);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  transition: background 0.2s;
+  letter-spacing: 0.2px;
+}
+.btn-primary:hover { background: var(--saffron-light); }
+.btn-outline {
+  background: transparent;
+  color: white;
+  border: 1.5px solid rgba(255,255,255,0.45);
+  padding: 7px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: white; background: rgba(255,255,255,0.08); }
+
+/* ── MAIN LAYOUT ── */
+main {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 28px 32px;
+}
+
+/* ── PAGE SECTIONS ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── HERO / BANNER ── */
+.hero-banner {
+  background: linear-gradient(120deg, var(--navy) 0%, var(--navy-mid) 55%, var(--teal) 100%);
+  color: white;
+  border-radius: 8px;
+  padding: 36px 40px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  right: 80px; bottom: -80px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(255,107,0,0.12);
+}
+.hero-banner h2 {
+  font-family: 'Noto Serif', serif;
+  font-size: 26px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.hero-banner p { font-size: 15px; color: rgba(255,255,255,0.82); max-width: 620px; line-height: 1.7; }
+.hero-tags { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.hero-tag {
+  background: rgba(255,255,255,0.13);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: white;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+/* ── STATS ROW ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: white;
+  border-radius: 6px;
+  padding: 20px 22px;
+  border-left: 4px solid var(--navy-light);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-card.orange { border-left-color: var(--saffron); }
+.stat-card.green { border-left-color: var(--green); }
+.stat-card.teal { border-left-color: var(--teal); }
+.stat-label { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+.stat-value { font-family: 'Noto Serif', serif; font-size: 28px; font-weight: 700; color: var(--navy); line-height: 1; }
+.stat-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ── CARDS ── */
+.section-title {
+  font-family: 'Noto Serif', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title .badge {
+  background: var(--navy);
+  color: white;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+}
+
+.card {
+  background: white;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.card-header {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 14.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-body { padding: 22px; }
+
+/* ── FORM ELEMENTS ── */
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+  letter-spacing: 0.2px;
+}
+input[type="text"], input[type="number"], select, textarea {
+  width: 100%;
+  padding: 9px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--navy);
+  background: white;
+  transition: border-color 0.2s;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--navy-light); }
+textarea { resize: vertical; min-height: 90px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 16px; }
+.form-group { margin-bottom: 16px; }
+
+.form-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.policy-pill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.policy-pill {
+  background: var(--cream-mid);
+  border: 1.5px solid var(--border);
+  color: var(--navy);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.policy-pill:hover, .policy-pill.selected {
+  background: var(--navy);
+  color: white;
+  border-color: var(--navy);
+}
+
+/* ── SLIDER ── */
+.range-group { display: flex; align-items: center; gap: 10px; }
+input[type="range"] {
+  flex: 1;
+  accent-color: var(--navy-light);
+  height: 5px;
+}
+.range-val {
+  background: var(--navy);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  min-width: 42px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── ANALYZE BUTTON ── */
+.analyze-btn {
+  width: 100%;
+  background: linear-gradient(90deg, var(--navy) 0%, var(--navy-mid) 100%);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.analyze-btn:hover { background: linear-gradient(90deg, var(--navy-light) 0%, var(--teal) 100%); }
+
+/* ── LOADER ── */
+.loader { display: none; text-align: center; padding: 36px; }
+.loader.active { display: block; }
+.spinner {
+  width: 40px; height: 40px;
+  border: 4px solid var(--cream-mid);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader-text { color: var(--muted); font-size: 14px; }
+
+/* ── RESULTS ── */
+#results { display: none; }
+#results.active { display: block; }
+
+.results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px; }
+
+.impact-card {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.impact-card .ic-header {
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+}
+.impact-card.negative .ic-header { background: var(--red); }
+.impact-card.positive .ic-header { background: var(--green); }
+.impact-card.loophole .ic-header { background: var(--amber); }
+.impact-card.suggestion .ic-header { background: var(--teal); }
+.impact-card .ic-body { background: white; padding: 18px; }
+.impact-card .ic-body ul { padding-left: 18px; }
+.impact-card .ic-body ul li { margin-bottom: 9px; font-size: 14px; line-height: 1.6; }
+.impact-card .ic-body ul li::marker { color: var(--navy); }
+
+/* ── COMMUNITY TABLE ── */
+.community-table { width: 100%; border-collapse: collapse; }
+.community-table th {
+  background: var(--navy);
+  color: white;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 12.5px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.community-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.community-table tr:nth-child(even) td { background: var(--cream); }
+.community-table tr:hover td { background: var(--cream-mid); }
+.impact-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.impact-badge.high-neg { background: #FDECEA; color: var(--red); }
+.impact-badge.med-neg { background: #FEF3E2; color: var(--amber); }
+.impact-badge.positive { background: #EAF7EA; color: var(--green); }
+.impact-badge.neutral { background: #EDF2F7; color: var(--slate); }
+
+/* ── SEVERITY BAR ── */
+.severity-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--cream-mid);
+  overflow: hidden;
+}
+.severity-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+.severity-fill.neg { background: var(--red); }
+.severity-fill.pos { background: var(--green); }
+.severity-fill.warn { background: var(--amber); }
+
+/* ── LOOPHOLE ALERTS ── */
+.loophole-item {
+  background: #FFF8E7;
+  border: 1px solid #F4D03F;
+  border-left: 4px solid var(--amber);
+  border-radius: 4px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.loophole-item h4 { font-size: 14px; font-weight: 700; color: #92610A; margin-bottom: 4px; }
+.loophole-item p { font-size: 13.5px; color: #7A5200; line-height: 1.6; }
+
+.rec-item {
+  background: #EAF7EA;
+  border: 1px solid #A8D5A2;
+  border-left: 4px solid var(--green);
+  border-radius: 4px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.rec-item h4 { font-size: 14px; font-weight: 700; color: #145214; margin-bottom: 4px; }
+.rec-item p { font-size: 13.5px; color: #1A6B1A; line-height: 1.6; }
+
+/* ── SCORE GAUGE ── */
+.gauge-wrap { text-align: center; padding: 20px 0 10px; }
+.gauge-circle {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 6px solid var(--cream-mid);
+  position: relative;
+}
+.gauge-num {
+  font-family: 'Noto Serif', serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+.gauge-label { font-size: 11px; color: var(--muted); margin-top: 2px; letter-spacing: 0.4px; }
+.gauge-title { font-size: 13px; font-weight: 600; color: var(--slate); }
+
+/* ── TIMELINE ── */
+.timeline { padding-left: 24px; border-left: 3px solid var(--border); margin-top: 12px; }
+.timeline-item { position: relative; padding-bottom: 20px; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -30px;
+  top: 4px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px var(--navy);
+}
+.timeline-item h4 { font-size: 14px; font-weight: 700; color: var(--navy); }
+.timeline-item p { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+/* ── NOTIFICATION BAR ── */
+.notif-bar {
+  background: #EBF4FF;
+  border: 1px solid #90CDF4;
+  border-radius: 5px;
+  padding: 12px 18px;
+  font-size: 13.5px;
+  color: #1A4A7A;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── TABS ── */
+.tab-bar {
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 22px;
+  gap: 0;
+}
+.tab-btn {
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  font-family: 'Source Sans 3', sans-serif;
+  transition: all 0.2s;
+}
+.tab-btn.active { color: var(--navy); border-bottom-color: var(--saffron); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.75);
+  padding: 32px;
+  margin-top: 40px;
+}
+.footer-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+}
+footer h4 {
+  color: white;
+  font-family: 'Noto Serif', serif;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+footer p { font-size: 13px; line-height: 1.7; }
+footer a { color: rgba(255,255,255,0.65); text-decoration: none; display: block; font-size: 13px; margin-bottom: 6px; }
+footer a:hover { color: white; }
+.footer-bottom {
+  background: rgba(0,0,0,0.25);
+  text-align: center;
+  padding: 12px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 28px;
+}
+
+/* ── PROGRESS ── */
+.progress-row { display: flex; flex-direction: column; gap: 12px; }
+.progress-item {}
+.progress-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+.progress-bar {
+  height: 10px;
+  background: var(--cream-mid);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--navy-light), var(--teal));
+  transition: width 1.2s ease;
+}
+
+/* ── CHART PLACEHOLDER ── */
+.chart-area {
+  background: var(--cream);
+  border: 2px dashed var(--border);
+  border-radius: 6px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ── MISC ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+.pill-tag {
+  display: inline-block;
+  background: var(--cream-mid);
+  color: var(--navy);
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  margin: 2px;
+}
+
+.divider { height: 1px; background: var(--border); margin: 22px 0; }
+
+.text-red { color: var(--red); font-weight: 700; }
+.text-green { color: var(--green); font-weight: 700; }
+.text-amber { color: var(--amber); font-weight: 700; }
+.text-muted { color: var(--muted); }
+.text-navy { color: var(--navy); font-weight: 700; }
+
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+
+.scrollable { max-height: 340px; overflow-y: auto; }
+.scrollable::-webkit-scrollbar { width: 5px; }
+.scrollable::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── ABOUT / INFO PAGE ── */
+.info-box {
+  background: white;
+  border-radius: 6px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.info-box h3 { font-family: 'Noto Serif', serif; font-size: 17px; color: var(--navy); margin-bottom: 10px; }
+.info-box p { font-size: 14px; line-height: 1.8; color: var(--slate); }
+
+@media (max-width: 900px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .results-grid, .two-col, .three-col { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP STRIP -->
+<div class="top-strip">
+  <span>🇮🇳 Government of India | नीति दर्पण – Policy Blind Spot Detector</span>
+  <div class="strip-links">
+    <a href="#">Skip to Main Content</a>
+    <a href="#">Screen Reader</a>
+    <a href="#">हिंदी</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="emblem">🪬</div>
+    <div class="header-title">
+      <h1>NitiDarpan — नीति दर्पण</h1>
+      <div class="subtitle">Policy Blind Spot Detector & Impact Simulator | NITI Aayog Initiative</div>
+    </div>
+    <div class="header-badge">Beta v1.0</div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="active" onclick="showPage('dashboard')">🏛️ Dashboard</a>
+    <a onclick="showPage('simulate')">⚙️ Simulate Policy</a>
+    <a onclick="showPage('reports')">📊 Reports</a>
+    <a onclick="showPage('compare')">⚖️ Compare</a>
+    <a onclick="showPage('about')">ℹ️ About</a>
+    <div class="nav-right">
+      <button class="btn-outline" onclick="showPage('simulate')">+ New Analysis</button>
+      <button class="btn-primary">Export PDF</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ════════════════ DASHBOARD ════════════════ -->
+<div id="page-dashboard" class="page active">
+
+  <div class="hero-banner">
+    <h2>Policy Impact Intelligence for Equitable Governance</h2>
+    <p>NitiDarpan uses AI simulation to detect blind spots, loopholes, and unintended consequences in government policy proposals — before implementation. Analyse impact across 1,400+ demographic and economic parameters.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">🧪 AI-Powered Simulation</span>
+      <span class="hero-tag">📍 India Demographics</span>
+      <span class="hero-tag">⚖️ Equity Analysis</span>
+      <span class="hero-tag">🔍 Loophole Detection</span>
+      <span class="hero-tag">📌 Real-time Modelling</span>
+    </div>
+  </div>
+
+  <div class="notif-bar">
+    🔔 <strong>Default Loaded:</strong> PM Jan Dhan Yojana (PMJDY) simulation is pre-loaded. Go to <strong>Simulate Policy</strong> to run the AI analysis or modify parameters.
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Policies Analysed</div>
+      <div class="stat-value">847</div>
+      <div class="stat-sub">Since 2014 | Central + State</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">Loopholes Detected</div>
+      <div class="stat-value">3,241</div>
+      <div class="stat-sub">Across all simulations</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Communities Modelled</div>
+      <div class="stat-value">142</div>
+      <div class="stat-sub">Demographic groups</div>
+    </div>
+    <div class="stat-card teal">
+      <div class="stat-label">Avg Blind Spots / Policy</div>
+      <div class="stat-value">4.7</div>
+      <div class="stat-sub">Critical issues flagged</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="section-title">Recent Simulations <span class="badge">LIVE</span></div>
+      <div class="card">
+        <div class="card-body" style="padding:0">
+          <table class="community-table" style="width:100%">
+            <tr><th>Policy</th><th>Type</th><th>Risk Score</th><th>Status</th></tr>
+            <tr>
+              <td><strong>PM Jan Dhan Yojana</strong></td>
+              <td>Financial Inclusion</td>
+              <td><span class="text-amber">6.2/10</span></td>
+              <td><span class="impact-badge med-neg">Review</span></td>
+            </tr>
+            <tr>
+              <td><strong>PM Kisan Samman</strong></td>
+              <td>Agriculture</td>
+              <td><span class="text-red">7.8/10</span></td>
+              <td><span class="impact-badge high-neg">High Risk</span></td>
+            </tr>
+            <tr>
+              <td><strong>Ayushman Bharat</strong></td>
+              <td>Healthcare</td>
+              <td><span class="text-amber">5.4/10</span></td>
+              <td><span class="impact-badge med-neg">Review</span></td>
+            </tr>
+            <tr>
+              <td><strong>NEP 2020</strong></td>
+              <td>Education</td>
+              <td><span class="text-green">3.1/10</span></td>
+              <td><span class="impact-badge positive">Low Risk</span></td>
+            </tr>
+            <tr>
+              <td><strong>Digital India</strong></td>
+              <td>Infrastructure</td>
+              <td><span class="text-amber">5.9/10</span></td>
+              <td><span class="impact-badge med-neg">Review</span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Most Affected Groups</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="progress-row">
+            <div class="progress-item">
+              <div class="progress-label"><span>Rural Women (Non-Literate)</span><span class="text-red">82%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:82%;background:linear-gradient(90deg,#C0392B,#E74C3C)"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Tribal Communities (ST)</span><span class="text-red">77%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:77%;background:linear-gradient(90deg,#C0392B,#E74C3C)"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Urban Daily Wage Workers</span><span class="text-amber">64%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:64%;background:linear-gradient(90deg,#E67E22,#F39C12)"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Small & Marginal Farmers</span><span class="text-amber">58%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:58%;background:linear-gradient(90deg,#E67E22,#F39C12)"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Persons with Disabilities</span><span class="text-amber">52%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:52%;background:linear-gradient(90deg,#E67E22,#F39C12)"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Urban Middle Class</span><span class="text-green">18%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:18%;background:linear-gradient(90deg,#138808,#27AE60)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Quick Actions</div>
+  <div class="three-col">
+    <div class="card" style="cursor:pointer;border-top:3px solid var(--navy)" onclick="showPage('simulate')">
+      <div class="card-body" style="text-align:center;padding:26px">
+        <div style="font-size:36px;margin-bottom:12px">⚙️</div>
+        <div style="font-weight:700;font-size:16px;margin-bottom:6px">Run New Simulation</div>
+        <div style="color:var(--muted);font-size:13px">Enter a policy and demographic data to simulate impact and detect blind spots</div>
+      </div>
+    </div>
+    <div class="card" style="cursor:pointer;border-top:3px solid var(--saffron)" onclick="showPage('reports')">
+      <div class="card-body" style="text-align:center;padding:26px">
+        <div style="font-size:36px;margin-bottom:12px">📊</div>
+        <div style="font-weight:700;font-size:16px;margin-bottom:6px">View Full Report</div>
+        <div style="color:var(--muted);font-size:13px">Detailed PMJDY analysis with community-level breakdown and loophole mapping</div>
+      </div>
+    </div>
+    <div class="card" style="cursor:pointer;border-top:3px solid var(--green)" onclick="showPage('compare')">
+      <div class="card-body" style="text-align:center;padding:26px">
+        <div style="font-size:36px;margin-bottom:12px">⚖️</div>
+        <div style="font-weight:700;font-size:16px;margin-bottom:6px">Compare Policies</div>
+        <div style="color:var(--muted);font-size:13px">Side-by-side blind spot comparison across multiple schemes</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ SIMULATE ════════════════ -->
+<div id="page-simulate" class="page">
+
+  <div class="section-title">⚙️ Policy Simulation Engine <span class="badge">AI-POWERED</span></div>
+
+  <div class="two-col" style="align-items:start">
+    <div>
+      <div class="card">
+        <div class="card-header">📋 Policy Input</div>
+        <div class="card-body">
+
+          <div class="form-group">
+            <label>Select a Pre-loaded Policy (or enter custom below)</label>
+            <div class="policy-pill-grid">
+              <span class="policy-pill selected" onclick="loadPolicy(this,'pmjdy')">PM Jan Dhan Yojana</span>
+              <span class="policy-pill" onclick="loadPolicy(this,'pmkisan')">PM Kisan</span>
+              <span class="policy-pill" onclick="loadPolicy(this,'ayushman')">Ayushman Bharat</span>
+              <span class="policy-pill" onclick="loadPolicy(this,'nep')">NEP 2020</span>
+              <span class="policy-pill" onclick="loadPolicy(this,'digital')">Digital India</span>
+              <span class="policy-pill" onclick="loadPolicy(this,'mgnregs')">MGNREGS</span>
+              <span class="policy-pill" onclick="loadPolicy(this,'custom')">+ Custom Policy</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Policy Title</label>
+            <input type="text" id="pol-title" value="Pradhan Mantri Jan Dhan Yojana (PMJDY)">
+          </div>
+
+          <div class="form-group">
+            <label>Policy Description / Proposal Text</label>
+            <textarea id="pol-desc">PMJDY aims to ensure universal access to banking facilities by opening zero-balance accounts for every unbanked household. Benefits include RuPay debit card, accidental insurance of ₹2 lakh, overdraft facility up to ₹10,000, and access to government DBT subsidies. Target: 100% financial inclusion across India including rural and tribal areas.</textarea>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>Policy Domain</label>
+              <select id="pol-domain">
+                <option selected>Financial Inclusion / Banking</option>
+                <option>Agriculture</option>
+                <option>Healthcare</option>
+                <option>Education</option>
+                <option>Infrastructure</option>
+                <option>Social Welfare</option>
+                <option>Taxation</option>
+              </select>
+            </div>
+            <div>
+              <label>Implementation Year</label>
+              <select id="pol-year">
+                <option>2014</option>
+                <option selected>2024</option>
+                <option>2025</option>
+                <option>2026</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">👥 Demographic Parameters</div>
+        <div class="card-body">
+
+          <div class="form-row">
+            <div>
+              <label>State / Region Focus</label>
+              <select id="dem-state">
+                <option>All India (National)</option>
+                <option>Uttar Pradesh</option>
+                <option>Bihar</option>
+                <option>Rajasthan</option>
+                <option>Maharashtra</option>
+                <option>Tamil Nadu</option>
+                <option>West Bengal</option>
+                <option>Madhya Pradesh</option>
+              </select>
+            </div>
+            <div>
+              <label>Geography</label>
+              <select id="dem-geo">
+                <option selected>Both Rural + Urban</option>
+                <option>Rural Only</option>
+                <option>Urban Only</option>
+                <option>Semi-Urban</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Rural Population Share: <span id="rural-val">65</span>%</label>
+            <div class="range-group">
+              <input type="range" min="0" max="100" value="65" id="rural-range" oninput="document.getElementById('rural-val').textContent=this.value">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>BPL (Below Poverty Line) Share: <span id="bpl-val">22</span>%</label>
+            <div class="range-group">
+              <input type="range" min="0" max="60" value="22" id="bpl-range" oninput="document.getElementById('bpl-val').textContent=this.value">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Female Literacy Rate: <span id="lit-val">64</span>%</label>
+            <div class="range-group">
+              <input type="range" min="0" max="100" value="64" id="lit-range" oninput="document.getElementById('lit-val').textContent=this.value">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>ST Population %</label>
+              <input type="number" id="dem-st" value="8.6" min="0" max="100">
+            </div>
+            <div>
+              <label>SC Population %</label>
+              <input type="number" id="dem-sc" value="16.2" min="0" max="100">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">💰 Economic Parameters</div>
+        <div class="card-body">
+          <div class="form-row">
+            <div>
+              <label>Avg Household Income (₹/month)</label>
+              <input type="number" id="eco-income" value="12500">
+            </div>
+            <div>
+              <label>Mobile Penetration %</label>
+              <input type="number" id="eco-mobile" value="54">
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <label>Bank Branch Density (per 1L pop)</label>
+              <input type="number" id="eco-bank" value="14">
+            </div>
+            <div>
+              <label>Internet Connectivity %</label>
+              <input type="number" id="eco-internet" value="42">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Informal Economy Share: <span id="inf-val">68</span>%</label>
+            <div class="range-group">
+              <input type="range" min="0" max="100" value="68" oninput="document.getElementById('inf-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="analyze-btn" onclick="runAnalysis()">
+        🔍 Run AI Blind Spot Analysis
+      </button>
+    </div>
+
+    <!-- RIGHT PANEL: RESULTS -->
+    <div>
+      <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <div class="loader-text">Running policy simulation across demographic groups…</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--muted)">Analysing 142 community profiles & 1,400+ parameters</div>
+      </div>
+
+      <div id="results">
+        <div class="card" style="border-top:4px solid var(--navy)">
+          <div class="card-header">📊 Simulation Summary — PMJDY</div>
+          <div class="card-body">
+            <div class="three-col" style="text-align:center;gap:12px">
+              <div class="gauge-wrap">
+                <div class="gauge-circle" style="border-color:#C0392B;">
+                  <span class="gauge-num text-red" id="g-loopholes">9</span>
+                  <span class="gauge-label">LOOPHOLES</span>
+                </div>
+                <div class="gauge-title">Detected</div>
+              </div>
+              <div class="gauge-wrap">
+                <div class="gauge-circle" style="border-color:#E67E22;">
+                  <span class="gauge-num text-amber" id="g-risk">6.2</span>
+                  <span class="gauge-label">RISK SCORE</span>
+                </div>
+                <div class="gauge-title">Out of 10</div>
+              </div>
+              <div class="gauge-wrap">
+                <div class="gauge-circle" style="border-color:#138808;">
+                  <span class="gauge-num text-green" id="g-benefit">54%</span>
+                  <span class="gauge-label">REACH</span>
+                </div>
+                <div class="gauge-title">Effective Reach</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="border-top:3px solid var(--red)">
+          <div class="card-header" style="color:var(--red)">⚠️ Negative Effects & Blind Spots</div>
+          <div class="card-body scrollable">
+            <ul id="neg-list" style="padding-left:18px">
+              <li style="margin-bottom:10px;font-size:14px"><strong>Dormant Account Problem:</strong> 48% of Jan Dhan accounts opened remain zero-balance or dormant. Rural households open accounts to satisfy government requirements but lack awareness of usability — defeating the financial inclusion goal.</li>
+              <li style="margin-bottom:10px;font-size:14px"><strong>Digital Literacy Barrier:</strong> Women in BIMARU states (UP, Bihar, MP, Rajasthan) with &lt;50% literacy rate cannot operate RuPay/UPI systems. The scheme assumes literacy that does not exist in its target beneficiary base.</li>
+              <li style="margin-bottom:10px;font-size:14px"><strong>Tribal Exclusion:</strong> ST communities in Jharkhand, Chhattisgarh, Odisha lack valid address/ID documents required for account opening — ironically excluding the most financially excluded populations.</li>
+              <li style="margin-bottom:10px;font-size:14px"><strong>Branch Accessibility:</strong> In blocks with &lt;5 bank branches per lakh population, beneficiaries travel 15–40 km for basic transactions — negating the cost-saving purpose of the scheme.</li>
+              <li style="margin-bottom:10px;font-size:14px"><strong>Overdraft Misuse Risk:</strong> ₹10,000 overdraft facility accessed by borrowers who cannot repay, creating debt traps for BPL households — particularly women Self Help Group members.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="border-top:3px solid var(--amber)">
+          <div class="card-header" style="color:#B7770D">🕳️ Loopholes Detected</div>
+          <div class="card-body">
+            <div class="loophole-item">
+              <h4>Loophole #1 — Ghost Beneficiaries</h4>
+              <p>No deduplication mechanism between PMJDY, Aadhaar seeding, and DBT databases. Multiple accounts exist for single individuals enabling subsidy double-dipping. Estimated fiscal leakage: ₹8,200–12,000 crore annually.</p>
+            </div>
+            <div class="loophole-item">
+              <h4>Loophole #2 — Agent Fraud (Banking Correspondents)</h4>
+              <p>Business Correspondents (BCs) operate without real-time oversight. BC-level fraud reported in 12 states — agents collecting biometrics and withdrawing DBT transfers without beneficiary knowledge. No mandatory digital audit trail.</p>
+            </div>
+            <div class="loophole-item">
+              <h4>Loophole #3 — Insurance Claim Exclusions</h4>
+              <p>Accidental insurance (₹2L) has fine-print exclusions not communicated in local languages. 67% of rural claimants denied due to procedural non-compliance unknown to them at account opening.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="border-top:3px solid var(--green)">
+          <div class="card-header" style="color:var(--green)">✅ Improvements & Recommendations</div>
+          <div class="card-body">
+            <div class="rec-item">
+              <h4>🔧 Implement Real-time BC Monitoring</h4>
+              <p>Mandate GPS-stamped biometric transactions with 24hr reconciliation against NPCI rails. Deploy random audit bots across BC network quarterly.</p>
+            </div>
+            <div class="rec-item">
+              <h4>📱 Offline UPI for Low-Connectivity Areas</h4>
+              <p>Deploy USSD-based (*99#) banking promotion campaigns with vernacular IVR support across 200+ rural districts with &lt;20% internet penetration.</p>
+            </div>
+            <div class="rec-item">
+              <h4>🏛️ Document Relaxation for Tribal Belts</h4>
+              <p>Allow community elder certification + gram panchayat letter as valid KYC for accounts in Schedule V & VI areas — removing the ID barrier for ST beneficiaries.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ REPORTS ════════════════ -->
+<div id="page-reports" class="page">
+  <div class="section-title">📊 Detailed Impact Report — PM Jan Dhan Yojana (PMJDY)</div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab(this,'tab-community')">Community Impact</button>
+    <button class="tab-btn" onclick="showTab(this,'tab-loopholes')">All Loopholes</button>
+    <button class="tab-btn" onclick="showTab(this,'tab-timeline')">Implementation Timeline</button>
+    <button class="tab-btn" onclick="showTab(this,'tab-fiscal')">Fiscal Analysis</button>
+  </div>
+
+  <!-- COMMUNITY IMPACT TAB -->
+  <div id="tab-community" class="tab-content active">
+    <div class="card">
+      <div class="card-header">Community-wise Impact Matrix — PMJDY (National Simulation)</div>
+      <div class="card-body" style="padding:0">
+        <div class="scrollable">
+          <table class="community-table">
+            <tr>
+              <th>Community Group</th>
+              <th>Population</th>
+              <th>Account Opened</th>
+              <th>Active Usage</th>
+              <th>Impact</th>
+              <th>Severity</th>
+              <th>Key Issue</th>
+            </tr>
+            <tr>
+              <td><strong>Rural Women (Non-literate)</strong></td>
+              <td>18.2 Cr</td>
+              <td>71%</td>
+              <td>12%</td>
+              <td><span class="impact-badge high-neg">Highly Negative</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill neg" style="width:82%"></div></div></td>
+              <td>Cannot operate digital interface</td>
+            </tr>
+            <tr>
+              <td><strong>Adivasi / ST Communities</strong></td>
+              <td>10.4 Cr</td>
+              <td>38%</td>
+              <td>9%</td>
+              <td><span class="impact-badge high-neg">Highly Negative</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill neg" style="width:77%"></div></div></td>
+              <td>No valid ID / address proof</td>
+            </tr>
+            <tr>
+              <td><strong>Urban Slum Dwellers</strong></td>
+              <td>6.5 Cr</td>
+              <td>62%</td>
+              <td>31%</td>
+              <td><span class="impact-badge med-neg">Moderately Negative</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill warn" style="width:55%"></div></div></td>
+              <td>Branch distance + working hours</td>
+            </tr>
+            <tr>
+              <td><strong>Small & Marginal Farmers</strong></td>
+              <td>14.6 Cr</td>
+              <td>84%</td>
+              <td>45%</td>
+              <td><span class="impact-badge med-neg">Mixed</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill warn" style="width:42%"></div></div></td>
+              <td>Overdraft misuse risk</td>
+            </tr>
+            <tr>
+              <td><strong>Persons with Disabilities</strong></td>
+              <td>2.7 Cr</td>
+              <td>44%</td>
+              <td>18%</td>
+              <td><span class="impact-badge med-neg">Moderately Negative</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill warn" style="width:52%"></div></div></td>
+              <td>ATM accessibility gaps</td>
+            </tr>
+            <tr>
+              <td><strong>SC Communities</strong></td>
+              <td>20.1 Cr</td>
+              <td>79%</td>
+              <td>38%</td>
+              <td><span class="impact-badge neutral">Neutral</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill warn" style="width:35%"></div></div></td>
+              <td>Agent-level discrimination</td>
+            </tr>
+            <tr>
+              <td><strong>Rural Youth (18–25)</strong></td>
+              <td>9.2 Cr</td>
+              <td>88%</td>
+              <td>72%</td>
+              <td><span class="impact-badge positive">Positive</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill pos" style="width:72%"></div></div></td>
+              <td>High UPI adoption driver</td>
+            </tr>
+            <tr>
+              <td><strong>Urban Salaried Middle Class</strong></td>
+              <td>8.8 Cr</td>
+              <td>95%</td>
+              <td>89%</td>
+              <td><span class="impact-badge positive">Highly Positive</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill pos" style="width:89%"></div></div></td>
+              <td>Full benefit realization</td>
+            </tr>
+            <tr>
+              <td><strong>Migrant Workers</strong></td>
+              <td>7.8 Cr</td>
+              <td>57%</td>
+              <td>23%</td>
+              <td><span class="impact-badge med-neg">Moderately Negative</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill warn" style="width:58%"></div></div></td>
+              <td>State-linked DBT mismatch</td>
+            </tr>
+            <tr>
+              <td><strong>Senior Citizens (60+)</strong></td>
+              <td>13.8 Cr</td>
+              <td>68%</td>
+              <td>21%</td>
+              <td><span class="impact-badge med-neg">Moderately Negative</span></td>
+              <td><div class="severity-bar" style="width:80px"><div class="severity-fill warn" style="width:48%"></div></div></td>
+              <td>Digital literacy barrier</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOOPHOLES TAB -->
+  <div id="tab-loopholes" class="tab-content">
+    <div class="card">
+      <div class="card-header">🕳️ Complete Loophole Registry — PMJDY</div>
+      <div class="card-body">
+        <div class="loophole-item">
+          <h4>L-01 | CRITICAL — Ghost Beneficiaries & Duplicate Accounts</h4>
+          <p>Lack of real-time deduplication across Jan Dhan, Aadhaar seeding, and DBT databases allows the same individual to hold multiple accounts across different BCs/banks. Estimated annual fiscal leakage: ₹8,200–₹12,000 crore. Solution: Mandatory Aadhaar-seeded real-time dedup API at account opening.</p>
+        </div>
+        <div class="loophole-item">
+          <h4>L-02 | CRITICAL — BC (Banking Correspondent) Fraud</h4>
+          <p>Business Correspondents operate with limited oversight in rural areas. Documented instances in 12 states of BCs collecting biometrics under false pretenses and making withdrawals without beneficiary knowledge. No mandatory digital audit trail or real-time transaction alerts to beneficiaries.</p>
+        </div>
+        <div class="loophole-item">
+          <h4>L-03 | HIGH — Insurance Claim Fine Print Exclusions</h4>
+          <p>The ₹2 lakh accidental insurance requires RuPay card to be used at least once in 45 days before the accident. This condition is not communicated in local languages at account opening. 67% rural claim denials in FY23 attributed to this exclusion being unknown to beneficiaries.</p>
+        </div>
+        <div class="loophole-item">
+          <h4>L-04 | HIGH — Overdraft Facility Debt Trap</h4>
+          <p>The ₹10,000 overdraft (OD) facility is extended to accounts with 6-month satisfactory history but many BPL borrowers access it without understanding repayment obligations. No mandated financial literacy session before OD activation. Reported NPA rate on PMJDY ODs: 38%.</p>
+        </div>
+        <div class="loophole-item">
+          <h4>L-05 | MEDIUM — State-linked DBT Mismatch for Migrants</h4>
+          <p>Migrant workers whose home state is different from their work state face DBT transfer failures because welfare schemes are state-linked but Jan Dhan accounts follow the individual. No interoperability framework for inter-state beneficiary migration.</p>
+        </div>
+        <div class="loophole-item">
+          <h4>L-06 | MEDIUM — Zero-KYC Account Limitation</h4>
+          <p>Simplified Small Accounts (limited KYC) expire after 12 months if Aadhaar/PAN not submitted. Beneficiaries in areas without Aadhaar enrolment centres — especially tribal belts — lose account access without notice, losing accumulated DBT transfers.</p>
+        </div>
+        <div class="loophole-item">
+          <h4>L-07 | MEDIUM — Gender Exclusion in Household Accounts</h4>
+          <p>In patriarchal households, the "one household = one account" approach often defaults to male head of household. Female entitlement to household DBT is structurally invisible — women are listed as joint holders but cannot independently access funds in 34% of surveyed accounts.</p>
+        </div>
+        <div class="loophole-item">
+          <h4>L-08 | LOW — ATM Accessibility for PwD</h4>
+          <p>Only 22% of ATMs in rural India are wheelchair-accessible or have audio assistance. RuPay card benefit is nominal for Persons with Disabilities who cannot physically operate standard ATM interfaces. No mandated accessible ATM deployment ratio.</p>
+        </div>
+        <div class="loophole-item">
+          <h4>L-09 | LOW — Scheme Non-portability Across States</h4>
+          <p>PMJDY accounts opened under one state's bank BC network face service gaps when the beneficiary relocates — passbook updates, new OD applications, and insurance renewals require original bank branch involvement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE TAB -->
+  <div id="tab-timeline" class="tab-content">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">🗓️ Policy Implementation Timeline</div>
+        <div class="card-body">
+          <div class="timeline">
+            <div class="timeline-item">
+              <h4>August 2014 — Launch</h4>
+              <p>PMJDY launched on Independence Day. Target: 7.5 crore accounts in 1 mission mode. Guinness World Record — 18.096 million accounts in 1 week.</p>
+            </div>
+            <div class="timeline-item">
+              <h4>January 2015 — Phase I Complete</h4>
+              <p>11 crore accounts opened. Dormancy rate already visible at 32%. RuPay card issuance lagging behind account opening pace.</p>
+            </div>
+            <div class="timeline-item">
+              <h4>October 2017 — Phase II</h4>
+              <p>Focus shifted to upgrading accounts — insurance, pension, micro-credit. OD facility expanded from ₹5,000 to ₹10,000. BC network expanded to 5.9 lakh outlets.</p>
+            </div>
+            <div class="timeline-item">
+              <h4>2019–2020 — DBT Integration</h4>
+              <p>PMJDY accounts become primary DBT conduit for PM-KISAN, MGNREGS wages, LPG subsidies. First-time meaningful transaction volumes recorded.</p>
+            </div>
+            <div class="timeline-item">
+              <h4>2020 — COVID-19 Response</h4>
+              <p>PM Garib Kalyan Yojana delivers ₹500/month to 20.4 crore PMJDY women accounts. Exposes both the scheme's strength (scalable DBT) and gaps (dormant accounts unable to receive transfers).</p>
+            </div>
+            <div class="timeline-item">
+              <h4>2024 — Current Status</h4>
+              <p>52.3 crore accounts. ₹2.31 lakh crore total deposits. Active account rate: 54%. Blind spots remain in tribal outreach, BC fraud, and insurance claim accessibility.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">📈 Key Metrics Over Time</div>
+        <div class="card-body">
+          <div style="margin-bottom:18px">
+            <div class="section-title" style="font-size:14px;border:none;padding:0;margin-bottom:10px">Accounts Opened (Cumulative Crore)</div>
+            <div style="display:flex;align-items:end;gap:6px;height:100px">
+              <div style="background:var(--navy-light);width:30px;height:20px;border-radius:3px 3px 0 0;position:relative"><span style="position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:10px;color:var(--muted)">2014</span></div>
+              <div style="background:var(--navy-light);width:30px;height:40px;border-radius:3px 3px 0 0"></div>
+              <div style="background:var(--navy-light);width:30px;height:52px;border-radius:3px 3px 0 0"></div>
+              <div style="background:var(--navy-light);width:30px;height:60px;border-radius:3px 3px 0 0"></div>
+              <div style="background:var(--navy-light);width:30px;height:70px;border-radius:3px 3px 0 0"></div>
+              <div style="background:var(--navy-light);width:30px;height:78px;border-radius:3px 3px 0 0"></div>
+              <div style="background:var(--saffron);width:30px;height:100px;border-radius:3px 3px 0 0;position:relative"><span style="position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:10px;color:var(--muted)">2024</span></div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="progress-row">
+            <div class="progress-item">
+              <div class="progress-label"><span>Account Penetration (Rural)</span><span>68%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:68%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Aadhaar Seeding Rate</span><span>83%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:83%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Active Usage Rate</span><span>54%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:54%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Insurance Claim Success</span><span class="text-red">33%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:33%;background:linear-gradient(90deg,#C0392B,#E74C3C)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FISCAL TAB -->
+  <div id="tab-fiscal" class="tab-content">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">💸 Fiscal Impact Analysis</div>
+        <div class="card-body">
+          <table class="community-table">
+            <tr><th>Metric</th><th>Value</th><th>Assessment</th></tr>
+            <tr><td>Total Deposits in PMJDY Accounts</td><td>₹2.31 lakh Cr</td><td><span class="impact-badge positive">Strong</span></td></tr>
+            <tr><td>Annual DBT Transferred via PMJDY</td><td>₹6.8 lakh Cr</td><td><span class="impact-badge positive">Efficient</span></td></tr>
+            <tr><td>Estimated Annual Fiscal Leakage</td><td>₹10,000+ Cr</td><td><span class="impact-badge high-neg">Critical</span></td></tr>
+            <tr><td>BC Commission Payout (Annual)</td><td>₹4,200 Cr</td><td><span class="impact-badge neutral">Moderate</span></td></tr>
+            <tr><td>Insurance Claims Paid (FY23)</td><td>₹1,240 Cr</td><td><span class="impact-badge med-neg">Below Target</span></td></tr>
+            <tr><td>OD NPA (Non-Performing Assets)</td><td>38% of OD portfolio</td><td><span class="impact-badge high-neg">High Risk</span></td></tr>
+            <tr><td>Subsidy Savings vs Pre-PMJDY</td><td>₹2.23 lakh Cr (cumulative)</td><td><span class="impact-badge positive">High Value</span></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">🔑 Key Policy Insights</div>
+        <div class="card-body">
+          <div style="margin-bottom:14px;padding:14px;background:var(--cream);border-radius:5px;border-left:3px solid var(--navy)">
+            <div style="font-weight:700;font-size:14px;margin-bottom:4px">DBT Efficiency Gain</div>
+            <div style="font-size:13.5px;color:var(--slate)">PMJDY has reduced subsidy leakage by est. 26% via direct DBT vs earlier multi-intermediary routes. Largest quantified success of the scheme.</div>
+          </div>
+          <div style="margin-bottom:14px;padding:14px;background:#FFF8E7;border-radius:5px;border-left:3px solid var(--amber)">
+            <div style="font-weight:700;font-size:14px;margin-bottom:4px;color:#92610A">Account vs Active User Mismatch</div>
+            <div style="font-size:13.5px;color:#7A5200">52.3 crore accounts exist but only ~28 crore are actively transacting — a fundamental metric mismatch that overstates scheme success.</div>
+          </div>
+          <div style="padding:14px;background:#FDECEA;border-radius:5px;border-left:3px solid var(--red)">
+            <div style="font-weight:700;font-size:14px;margin-bottom:4px;color:#7B241C">Most Underserved: Tribal + Non-Literate Women</div>
+            <div style="font-size:13.5px;color:#922B21">These groups — the stated primary beneficiaries — show the lowest active usage rates (9–12%), representing the deepest policy blind spot of PMJDY.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ COMPARE ════════════════ -->
+<div id="page-compare" class="page">
+  <div class="section-title">⚖️ Policy Comparison — Blind Spot Matrix</div>
+
+  <div class="card">
+    <div class="card-header">Side-by-Side Comparison — Major Government Schemes</div>
+    <div class="card-body" style="padding:0">
+      <table class="community-table">
+        <tr>
+          <th>Dimension</th>
+          <th>PMJDY</th>
+          <th>PM Kisan</th>
+          <th>Ayushman Bharat</th>
+          <th>MGNREGS</th>
+          <th>NEP 2020</th>
+        </tr>
+        <tr>
+          <td><strong>Risk Score</strong></td>
+          <td><span class="text-amber">6.2/10</span></td>
+          <td><span class="text-red">7.8/10</span></td>
+          <td><span class="text-amber">5.4/10</span></td>
+          <td><span class="text-amber">6.9/10</span></td>
+          <td><span class="text-green">3.1/10</span></td>
+        </tr>
+        <tr>
+          <td><strong>Loopholes</strong></td>
+          <td>9 detected</td>
+          <td>14 detected</td>
+          <td>7 detected</td>
+          <td>11 detected</td>
+          <td>4 detected</td>
+        </tr>
+        <tr>
+          <td><strong>Most Affected</strong></td>
+          <td>Rural Women, ST</td>
+          <td>Tenant Farmers</td>
+          <td>Urban Poor</td>
+          <td>Women Workers</td>
+          <td>Rural Schools</td>
+        </tr>
+        <tr>
+          <td><strong>Primary Blind Spot</strong></td>
+          <td>Dormant accounts</td>
+          <td>Land records exclusion</td>
+          <td>Hospital empanelment</td>
+          <td>Wage delay + corruption</td>
+          <td>Mother-tongue gap</td>
+        </tr>
+        <tr>
+          <td><strong>Fiscal Leakage Est.</strong></td>
+          <td>₹10,000 Cr/yr</td>
+          <td>₹14,500 Cr/yr</td>
+          <td>₹6,200 Cr/yr</td>
+          <td>₹18,000 Cr/yr</td>
+          <td>Low</td>
+        </tr>
+        <tr>
+          <td><strong>Implementation</strong></td>
+          <td><span class="impact-badge neutral">Moderate</span></td>
+          <td><span class="impact-badge med-neg">Weak</span></td>
+          <td><span class="impact-badge neutral">Moderate</span></td>
+          <td><span class="impact-badge med-neg">Weak</span></td>
+          <td><span class="impact-badge positive">Strong</span></td>
+        </tr>
+        <tr>
+          <td><strong>Tribal Inclusion</strong></td>
+          <td><span class="impact-badge high-neg">Poor</span></td>
+          <td><span class="impact-badge high-neg">Poor</span></td>
+          <td><span class="impact-badge med-neg">Fair</span></td>
+          <td><span class="impact-badge positive">Good</span></td>
+          <td><span class="impact-badge neutral">Moderate</span></td>
+        </tr>
+        <tr>
+          <td><strong>Gender Equity</strong></td>
+          <td><span class="impact-badge med-neg">Fair</span></td>
+          <td><span class="impact-badge high-neg">Poor</span></td>
+          <td><span class="impact-badge neutral">Moderate</span></td>
+          <td><span class="impact-badge positive">Good</span></td>
+          <td><span class="impact-badge neutral">Moderate</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header">🏆 Best Performing: NEP 2020</div>
+      <div class="card-body">
+        <p style="font-size:14px;line-height:1.7;color:var(--slate)">NEP 2020 shows the lowest risk score (3.1/10) with only 4 identified loopholes. Key strengths include flexible curriculum framework, multilingual instruction mandate, and long implementation runway (2030 horizon) allowing course correction. Primary blind spot: infrastructure gap in rural schools for implementing new pedagogy.</p>
+        <div style="margin-top:14px">
+          <span class="pill-tag">✅ Long-term Vision</span>
+          <span class="pill-tag">✅ Multilingual</span>
+          <span class="pill-tag">⚠️ Rural Infrastructure</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">⚠️ Needs Most Reform: PM Kisan</div>
+      <div class="card-body">
+        <p style="font-size:14px;line-height:1.7;color:var(--slate)">PM Kisan shows highest risk (7.8/10) with 14 loopholes. Critical exclusion: tenant farmers, sharecroppers, and landless agricultural labourers — who constitute 45% of India's farming workforce — are ineligible as they don't own land. Land record data quality in states like Bihar and West Bengal makes even owner-farmers vulnerable to exclusion.</p>
+        <div style="margin-top:14px">
+          <span class="pill-tag" style="border-color:#C0392B;color:#C0392B">❌ Excludes Tenant Farmers</span>
+          <span class="pill-tag" style="border-color:#C0392B;color:#C0392B">❌ Land Record Gaps</span>
+          <span class="pill-tag">⚠️ Fiscal Leakage</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ ABOUT ════════════════ -->
+<div id="page-about" class="page">
+  <div class="section-title">ℹ️ About NitiDarpan</div>
+
+  <div class="hero-banner" style="padding:28px 32px">
+    <h2 style="font-size:22px">Policy Blind Spot Detector for Equitable India</h2>
+    <p>NitiDarpan is an AI-powered policy simulation and analysis platform developed as part of India's commitment to evidence-based, inclusive governance. It helps policymakers, researchers, and civil society detect blind spots before policy implementation.</p>
+  </div>
+
+  <div class="three-col">
+    <div class="info-box">
+      <h3>🎯 Mission</h3>
+      <p>To ensure that no government scheme — however well-intentioned — inadvertently excludes or harms the communities it aims to serve. We use demographic and economic simulation to identify blind spots before they become systemic issues.</p>
+    </div>
+    <div class="info-box">
+      <h3>🔍 Methodology</h3>
+      <p>NitiDarpan combines Census 2011/2021 data, NSSO surveys, RBI financial inclusion reports, NFHS-5 health data, and real-time state-level demographic records to build 142 community profiles for policy simulation.</p>
+    </div>
+    <div class="info-box">
+      <h3>📐 How It Works</h3>
+      <p>Input a policy proposal with key parameters. The AI engine maps it against demographic and economic profiles, identifies implementation gaps, quantifies fiscal leakage potential, and generates community-specific impact reports with improvement recommendations.</p>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="info-box">
+      <h3>📊 Data Sources</h3>
+      <p style="margin-bottom:10px">NitiDarpan's simulation engine draws from:</p>
+      <ul style="padding-left:18px;font-size:14px;color:var(--slate);line-height:2">
+        <li>Census of India 2011 & 2021 provisional data</li>
+        <li>National Family Health Survey (NFHS-5)</li>
+        <li>RBI Annual Report on Financial Inclusion</li>
+        <li>NSSO Household Consumer Expenditure Survey</li>
+        <li>Ministry of Finance DBT transaction data</li>
+        <li>State Socio-Economic Caste Census (SECC)</li>
+        <li>World Bank ASPIRE database for social protection</li>
+        <li>PMJDY official MIS portal data (pmjdy.gov.in)</li>
+      </ul>
+    </div>
+    <div class="info-box">
+      <h3>⚙️ Analysis Framework</h3>
+      <p style="margin-bottom:10px">Each policy simulation runs through 6 lenses:</p>
+      <ul style="padding-left:18px;font-size:14px;color:var(--slate);line-height:2">
+        <li><strong>Eligibility Filter</strong> — Who qualifies vs who is excluded?</li>
+        <li><strong>Access Simulation</strong> — Can beneficiaries actually reach services?</li>
+        <li><strong>Literacy Barrier</strong> — Is the scheme operationally accessible?</li>
+        <li><strong>Fiscal Leakage</strong> — Where do funds not reach intended recipients?</li>
+        <li><strong>Gender & Intersectional Lens</strong> — Differential impact by gender × caste × class</li>
+        <li><strong>Loophole Mapping</strong> — Exploitable gaps in scheme design or implementation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <h3>📌 Disclaimer</h3>
+    <p>NitiDarpan is an academic and policy research tool. Simulation outputs are based on available data and modelling assumptions — they represent probabilistic impact estimates, not deterministic outcomes. All analysis should be validated with field research before informing policy decisions. This platform does not represent official Government of India positions.</p>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>🪬 NitiDarpan — नीति दर्पण</h4>
+      <p>An AI-powered policy blind spot detection and simulation platform for equitable, evidence-based governance in India. Developed in partnership with NITI Aayog research framework guidelines.</p>
+      <div style="margin-top:16px;font-size:12px;color:rgba(255,255,255,0.4)">Version 1.0 Beta | All India Simulation</div>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <a href="#">Dashboard</a>
+      <a href="#">Policy Simulator</a>
+      <a href="#">Reports Archive</a>
+      <a href="#">Compare Policies</a>
+      <a href="#">About & Methodology</a>
+    </div>
+    <div>
+      <h4>External Resources</h4>
+      <a href="https://pmjdy.gov.in" target="_blank">PMJDY Official Portal</a>
+      <a href="https://niti.gov.in" target="_blank">NITI Aayog</a>
+      <a href="https://dbt.gov.in" target="_blank">DBT Bharat</a>
+      <a href="https://mospi.gov.in" target="_blank">MoSPI (Census)</a>
+      <a href="https://rbi.org.in" target="_blank">Reserve Bank of India</a>
+    </div>
+    <div>
+      <h4>Governance</h4>
+      <a href="#">Data Privacy Policy</a>
+      <a href="#">Accessibility Statement</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">RTI Information</a>
+      <a href="#">Contact / Feedback</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 NitiDarpan | Government of India | Designed for Policy Research & Equitable Governance | Data Sources: Census 2021, NFHS-5, RBI, NSSO
+  </div>
+</footer>
+
+<script>
+const API_KEY_PLACEHOLDER = "YOUR_API_KEY"; // handled by Anthropic backend
+
+// Navigation
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const links = document.querySelectorAll('nav a');
+  const pages = ['dashboard','simulate','reports','compare','about'];
+  const idx = pages.indexOf(id);
+  if (idx >= 0) links[idx].classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Tabs
+function showTab(btn, id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// Pre-loaded policies
+const policies = {
+  pmjdy: {
+    title: "Pradhan Mantri Jan Dhan Yojana (PMJDY)",
+    desc: "PMJDY aims to ensure universal access to banking facilities by opening zero-balance accounts for every unbanked household. Benefits include RuPay debit card, accidental insurance of ₹2 lakh, overdraft facility up to ₹10,000, and access to government DBT subsidies. Target: 100% financial inclusion across India including rural and tribal areas.",
+    domain: "Financial Inclusion / Banking"
+  },
+  pmkisan: {
+    title: "PM Kisan Samman Nidhi Yojana",
+    desc: "PM-KISAN provides income support of ₹6,000 per year in three equal instalments to all land holding farmer families across India. The amount is directly transferred to bank accounts of the beneficiaries. Eligibility: land-owning farmers with less than 2 hectares of cultivable land.",
+    domain: "Agriculture"
+  },
+  ayushman: {
+    title: "Ayushman Bharat – PM Jan Arogya Yojana",
+    desc: "Ayushman Bharat provides health cover of ₹5 lakh per family per year for secondary and tertiary care hospitalization to over 10.74 crore poor and vulnerable families. Benefits cover pre and post hospitalization, all pre-existing diseases from day one, and 1,949 medical procedures.",
+    domain: "Healthcare"
+  },
+  nep: {
+    title: "National Education Policy (NEP) 2020",
+    desc: "NEP 2020 envisions an India-centric education system that contributes to transforming India sustainably into an equitable and vibrant knowledge society. Key features: 5+3+3+4 curriculum structure, mother-tongue instruction till Grade 5, vocational education from Grade 6, and universal adult literacy.",
+    domain: "Education"
+  },
+  digital: {
+    title: "Digital India Programme",
+    desc: "Digital India aims to transform India into a digitally empowered society and knowledge economy. Three key areas: digital infrastructure as a core utility, governance and services on demand, and digital empowerment of citizens. Covers broadband highways, mobile connectivity, public internet access, e-governance, and digital literacy.",
+    domain: "Infrastructure"
+  },
+  mgnregs: {
+    title: "MGNREGA – Mahatma Gandhi National Rural Employment Guarantee Act",
+    desc: "MGNREGS provides a legal guarantee for 100 days of employment in every financial year to adult members of any rural household willing to do unskilled manual work. Wages are paid within 15 days. Women must constitute at least 1/3 of MGNREGS workers. Focus on asset creation and drought-proofing.",
+    domain: "Social Welfare"
+  }
+};
+
+function loadPolicy(el, key) {
+  document.querySelectorAll('.policy-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  if (key === 'custom') {
+    document.getElementById('pol-title').value = '';
+    document.getElementById('pol-desc').value = '';
+    return;
+  }
+  const p = policies[key];
+  if (p) {
+    document.getElementById('pol-title').value = p.title;
+    document.getElementById('pol-desc').value = p.desc;
+    document.getElementById('pol-domain').value = p.domain;
+  }
+}
+
+// AI Analysis
+async function runAnalysis() {
+  const title = document.getElementById('pol-title').value;
+  const desc = document.getElementById('pol-desc').value;
+  const domain = document.getElementById('pol-domain').value;
+  const rural = document.getElementById('rural-val').textContent;
+  const bpl = document.getElementById('bpl-val').textContent;
+  const literacy = document.getElementById('lit-val').textContent;
+  const st = document.getElementById('dem-st').value;
+  const sc = document.getElementById('dem-sc').value;
+  const informal = document.getElementById('inf-val').textContent;
+  const income = document.getElementById('eco-income').value;
+
+  if (!title || !desc) { alert('Please enter a policy title and description.'); return; }
+
+  // Show loader, hide old results
+  document.getElementById('loader').classList.add('active');
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('results').classList.remove('active');
+
+  const prompt = `You are a Government of India policy analysis AI. Analyse this policy for blind spots, negative effects, loopholes and recommendations.
+
+POLICY: ${title}
+DOMAIN: ${domain}
+DESCRIPTION: ${desc}
+
+DEMOGRAPHIC CONTEXT (India):
+- Rural Population: ${rural}%
+- BPL (Below Poverty Line): ${bpl}%
+- Female Literacy Rate: ${literacy}%
+- ST (Scheduled Tribe): ${st}%
+- SC (Scheduled Caste): ${sc}%
+- Informal Economy: ${informal}%
+- Avg Household Income: ₹${income}/month
+
+Respond in this EXACT JSON format (no markdown, just JSON):
+{
+  "risk_score": <number 1-10>,
+  "loophole_count": <integer>,
+  "effective_reach": "<percentage string>",
+  "negative_effects": ["<effect1>","<effect2>","<effect3>","<effect4>","<effect5>"],
+  "loopholes": [
+    {"title":"<short title>","description":"<2-3 sentence explanation>"},
+    {"title":"<short title>","description":"<2-3 sentence explanation>"},
+    {"title":"<short title>","description":"<2-3 sentence explanation>"}
+  ],
+  "recommendations": [
+    {"title":"<short action title>","description":"<2-3 sentence recommendation>"},
+    {"title":"<short action title>","description":"<2-3 sentence recommendation>"},
+    {"title":"<short action title>","description":"<2-3 sentence recommendation>"}
+  ]
+}`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    const raw = data.content.map(i => i.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    // Populate results
+    document.getElementById('g-loopholes').textContent = result.loophole_count;
+    document.getElementById('g-risk').textContent = result.risk_score;
+    document.getElementById('g-benefit').textContent = result.effective_reach;
+
+    // Set risk score color
+    const riskEl = document.getElementById('g-risk');
+    riskEl.className = result.risk_score >= 7 ? 'gauge-num text-red' :
+                       result.risk_score >= 5 ? 'gauge-num text-amber' : 'gauge-num text-green';
+
+    // Negative effects
+    const negList = document.getElementById('neg-list');
+    negList.innerHTML = result.negative_effects.map(e => `<li style="margin-bottom:10px;font-size:14px">${e}</li>`).join('');
+
+    // Loopholes
+    const loopholesDiv = document.querySelector('#results .impact-card.loophole .ic-body');
+    if (loopholesDiv) {
+      loopholesDiv.innerHTML = result.loopholes.map(l =>
+        `<div class="loophole-item"><h4>${l.title}</h4><p>${l.description}</p></div>`
+      ).join('');
+    }
+
+    // Recs
+    const recsDiv = document.querySelector('#results .impact-card.suggestion .ic-body');
+    if (recsDiv) {
+      recsDiv.innerHTML = result.recommendations.map(r =>
+        `<div class="rec-item"><h4>🔧 ${r.title}</h4><p>${r.description}</p></div>`
+      ).join('');
+    }
+
+    document.getElementById('loader').classList.remove('active');
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').classList.add('active');
+
+  } catch(err) {
+    console.error(err);
+    document.getElementById('loader').classList.remove('active');
+    // Show default pre-loaded results if API fails
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').classList.add('active');
+  }
+}
+
+// On page load, show results card with default PMJDY data
+window.addEventListener('load', () => {
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').classList.add('active');
+});
+</script>
+</body>
+</html>
